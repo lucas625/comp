@@ -12,9 +12,11 @@ public final class SetGenerator {
         if (g == null) throw new NullPointerException("g nao pode ser nula.");
 
         Map<Nonterminal, Set<GeneralSymbol>> first = initializeNonterminalMapping(g);
+
         /*
          * Implemente aqui o método para retornar o conjunto first
          */
+
         Collection<Production> regras = g.getProductions();//lista das regras
 
         for(Production p : regras){//o for que percorre todas as regras
@@ -24,23 +26,28 @@ public final class SetGenerator {
             int indice = 1;//indice para recursao
             GeneralSymbol primeiroS = regra.get(0);
             Nonterminal nt = p.getNonterminal();
+            recursao.add(nt);//coloca o nterminal na pilha
+            recursao.add(primeiroS);//coloca o primeiro símbolo na pilha
             //até aqui ok
-            //while(!(recursao.isEmpty() && indice>=recursao.size())){//isso vai rodar enquanto a "pilha" estiver vazia ou o indice não passou do tamanho da pilha
-                if(primeiroS instanceof Nonterminal){
+            while(!(recursao.isEmpty() && indice>=recursao.size())){//isso vai rodar enquanto a "pilha" estiver vazia ou o indice não passou do tamanho da pilha
+                if(primeiroS instanceof Nonterminal){//caso de ser nTerminal
 
                 }
                 else{//caso de ser EPISILON ou Terminal
                     if(first.get(nt).isEmpty()){//caso o set do first do nTerminal esteja vazio, podemos adicionar diretamente
-                        auxFirst.add(primeiroS);
+
                     }else{
-                        auxFirst.addAll(first.get(nt));
-                        auxFirst.add(primeiroS);
+                        auxFirst.addAll(first.get(nt));//pega tudo que já tem la em first do nterminal
+
                     }
+                    auxFirst.add(primeiroS);//adiciona o nterminal atual
+                    indice++;
                 }
-            //}
+            }
             first.put(nt,auxFirst);
         }
         System.out.println(first);
+
         return first;
 
     }
