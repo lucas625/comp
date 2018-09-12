@@ -15,18 +15,32 @@ public final class SetGenerator {
         /*
          * Implemente aqui o método para retornar o conjunto first
          */
-        Collection<Nonterminal> n = g.getNonterminals();
-        Set[] teste = new Set[n.size()];
         Collection<Production> regras = g.getProductions();//lista das regras
 
         for(Production p : regras){//o for que percorre todas as regras
-            List<GeneralSymbol> producao = p.getProduction();//regra atual
-            if((producao.get(0) instanceof Terminal) || (producao.get(0) instanceof SpecialSymbol)){
-                Set<GeneralSymbol> aux = new HashSet<GeneralSymbol>();
-                aux.add(producao.get(0));
-                first.merge(p.getNonterminal(),aux);
-            }
+            HashSet<GeneralSymbol> auxFirst = new HashSet<GeneralSymbol>();//auxiliar que vai juntar os símbolos do first
+            List<GeneralSymbol> regra = p.getProduction();//regra atual
+            ArrayList recursao = new ArrayList();
+            int indice = 1;//indice para recursao
+            GeneralSymbol primeiroS = regra.get(0);
+            Nonterminal nt = p.getNonterminal();
+            //até aqui ok
+            //while(!(recursao.isEmpty() && indice>=recursao.size())){//isso vai rodar enquanto a "pilha" estiver vazia ou o indice não passou do tamanho da pilha
+                if(primeiroS instanceof Nonterminal){
+
+                }
+                else{//caso de ser EPISILON ou Terminal
+                    if(first.get(nt).isEmpty()){//caso o set do first do nTerminal esteja vazio, podemos adicionar diretamente
+                        auxFirst.add(primeiroS);
+                    }else{
+                        auxFirst.addAll(first.get(nt));
+                        auxFirst.add(primeiroS);
+                    }
+                }
+            //}
+            first.put(nt,auxFirst);
         }
+        System.out.println(first);
         return first;
 
     }
