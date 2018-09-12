@@ -29,6 +29,7 @@ public final class SetGenerator {
             recursao.add(nt);//coloca o nterminal na pilha
             recursao.add(primeiroS);//coloca o primeiro símbolo na pilha
             //até aqui ok
+            //oi
             while(!(recursao.isEmpty() && indice>=recursao.size())){//isso vai rodar enquanto a "pilha" estiver vazia ou o indice não passou do tamanho da pilha
                 if(primeiroS instanceof Nonterminal){//caso de ser nTerminal
 
